@@ -1,4 +1,4 @@
-const {normalizeURL} = require("../src/crawl")
+const {normalizeURL, getURLsFromHtml} = require("../src/crawl")
 
 const {test, expect} = require("@jest/globals")
 
@@ -54,3 +54,26 @@ test('normalizeURL strip http', ()=>{
 
     expect(actualOutput).toEqual(expectedOutput)
 })
+
+
+// ====>test suite: 4
+// for absolute URLs: href ones
+
+test('getURLsFromHtml', ()=>{
+    const inputHTMLBody = `
+    <html>
+        <body>
+            <a href="https://blog.boot.dev">
+            Practice
+            </a>
+        </body>
+    </html>
+    `
+
+    const inputBaseURL = "https://blog.boot.dev"
+    const actualOutput = getURLsFromHtml(inputHTMLBody, inputBaseURL)
+    const expectedOutput = ["https://blog.boot.dev/"]
+    
+    expect(actualOutput).toEqual(expectedOutput)
+})
+
