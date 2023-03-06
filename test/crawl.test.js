@@ -2,6 +2,7 @@ const {normalizeURL} = require("../src/crawl")
 
 const {test, expect} = require("@jest/globals")
 
+// ====>test suite: 1
 // test suite stripping the protocol
 
 test('normlizeURL strip protocol', ()=>{
@@ -18,6 +19,8 @@ test('normlizeURL strip protocol', ()=>{
 })
 
 
+// ====>test suite: 2
+
 // test suite for tackling the trailing slashes
 
 // just going to trim the trailing slashes
@@ -30,7 +33,10 @@ test('normalizeURL strip trailing slashes', ()=>{
     expect(actualOutput).toEqual(expectedOutput)
 })
 
+
+// ====>test suite: 3
 // test suite for handling the capitals, dont't really need to do anything URL constructor will take care of it as it is case insensitive
+
 
 test('normalizeURL capital handling', ()=>{
     const input = 'https://BLOG.boot.dev/path'
@@ -40,3 +46,11 @@ test('normalizeURL capital handling', ()=>{
     expect(actualOutput).toEqual(expectedOutput)
 })
 
+ 
+test('normalizeURL strip http', ()=>{
+    const input = 'http://blog.boot.dev/path'
+    const actualOutput = normalizeURL(input)
+    const expectedOutput = 'blog.boot.dev/path'
+
+    expect(actualOutput).toEqual(expectedOutput)
+})
