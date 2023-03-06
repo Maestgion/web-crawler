@@ -46,6 +46,7 @@ test('normalizeURL capital handling', ()=>{
     expect(actualOutput).toEqual(expectedOutput)
 })
 
+// ====>test suite: 4
  
 test('normalizeURL strip http', ()=>{
     const input = 'http://blog.boot.dev/path'
@@ -56,24 +57,45 @@ test('normalizeURL strip http', ()=>{
 })
 
 
-// ====>test suite: 4
+// ====>test suite: 5
 // for absolute URLs: href ones
 
-test('getURLsFromHtml', ()=>{
+test('getURLsFromHtml absolute URLs', ()=>{
     const inputHTMLBody = `
     <html>
         <body>
-            <a href="https://blog.boot.dev">
+            <a href="https://blog.boot.dev/path/">
             Practice
             </a>
         </body>
     </html>
     `
 
-    const inputBaseURL = "https://blog.boot.dev"
+    const inputBaseURL = "https://blog.boot.dev/path/"
     const actualOutput = getURLsFromHtml(inputHTMLBody, inputBaseURL)
-    const expectedOutput = ["https://blog.boot.dev/"]
+    const expectedOutput = ["https://blog.boot.dev/path/"]
     
+    expect(actualOutput).toEqual(expectedOutput)
+})
+
+
+// ====>test suite: 6
+// relative URls: start with '/' and no protocol and domain
+
+test('getURLsFromHTML relative URLs', ()=>{
+    const inputHTMLBody = `
+    <html>
+        <body>
+            <a href="/path/">
+            Practice
+            </a>
+        </body>
+    </html>
+    `
+
+    const inputBaseURL =   "https://blog.boot.dev"
+    const actualOutput = getURLsFromHtml(inputHTMLBody, inputBaseURL)
+    const expectedOutput = ["https://blog.boot.dev/path/"]
     expect(actualOutput).toEqual(expectedOutput)
 })
 

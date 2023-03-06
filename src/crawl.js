@@ -11,9 +11,15 @@ const getURLsFromHtml=(htmlBody, baseURL)=>
     const dom = new JSDOM(htmlBody)
     const linkElems = dom.window.document.querySelectorAll('a')
 
+
     for(const linkElem of linkElems)
-    {
-        urls.push(linkElem.href)
+    {   
+        // relative
+        if(linkElem.href.slice(0,1)==='/')
+            urls.push(`${baseURL}${linkElem.href}`)
+        else
+        // absolute
+            urls.push(linkElem.href)
     }
     return urls
 }
