@@ -6,7 +6,14 @@ const normalizeURL = (urlString)=>{
 //  using the built-in URL constructor to extract the hostname and pathname from the urlString and just return it 
 
         const urlObj = new URL(urlString)
-        return `${urlObj.hostname}${urlObj.pathname}`
+        const hostPath =  `${urlObj.hostname}${urlObj.pathname}`
+
+        if(hostPath.length>0 && hostPath.slice(-1)==='/')
+        {
+            return hostPath.slice(0,-1)
+        }
+
+        return hostPath
 
 }
 

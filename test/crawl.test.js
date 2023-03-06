@@ -16,3 +16,17 @@ test('normalizeURL strip the protocol', ()=>{
     expect(actualOutput).toEqual(expectedOutput)
 
 })
+
+
+// test suite for tackling the trailing slashes
+
+// just going to trim the trailing slashes
+
+test('normalizeURL trimming trailing slashes', ()=>{
+    const input = 'https://blog.boot.dev./path/'
+    const actualOutput = normalizeURL(input)
+    const expectedOutput = 'blog.boot.dev./path'
+
+    expect(actualOutput).toEqual(expectedOutput)
+})
+
