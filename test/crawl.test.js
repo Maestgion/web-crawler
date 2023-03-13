@@ -99,3 +99,31 @@ test('getURLsFromHTML relative URLs', ()=>{
     expect(actualOutput).toEqual(expectedOutput)
 })
 
+
+// ====>test suite: 7
+// to track multiple links
+
+test('getURLsFromHTML both relative and absolute', ()=>{
+    const inputHTMLBody = `
+    <html>
+        <body>
+            <a href="https://blog.boot.dev/path1/">
+                Practice
+            </a>
+            <a href="/path2/">
+                Practice
+            </a>
+        </body>
+    </html>
+    `
+
+    const inputBaseURL = "https://blog.boot.dev"
+    const actualOutput = getURLsFromHtml(inputHTMLBody, inputBaseURL)
+    const expectedOutput = ["https://blog.boot.dev/path1/", "https://blog.boot.dev/path2/"]
+
+    expect(actualOutput).toEqual(expectedOutput)
+})
+
+
+
+
