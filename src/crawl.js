@@ -5,21 +5,39 @@ const {JSDOM} = require ('jsdom')
 // using jsdom package for getting the html tree structure, and gives us a way in node to access the DOM APIs
 
 const getURLsFromHtml=(htmlBody, baseURL)=>
-{   
+{       
     // will return an array of strings
     const urls = []
     const dom = new JSDOM(htmlBody)
     const linkElems = dom.window.document.querySelectorAll('a')
-
+    
 
     for(const linkElem of linkElems)
     {   
-        // relative
         if(linkElem.href.slice(0,1)==='/')
-            urls.push(`${baseURL}${linkElem.href}`)
+        {
+            try{
+                const urlObj = new URL(`${baseURL}${linkElem.href}`)
+                // relative
+                    urls.push(urlObj.href)
+            }catch(e)
+            {
+                console.log(e.message)
+            }
+        }
         else
+        {
         // absolute
-            urls.push(linkElem.href)
+        try{
+            const urlObj = new URL(linkElem.href)
+            // relative
+                urls.push(urlObj.href)
+        }catch(e)
+        {
+            console.log(e.message)
+        }
+            
+        }
     }
     return urls
 }

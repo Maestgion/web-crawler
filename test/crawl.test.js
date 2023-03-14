@@ -124,6 +124,27 @@ test('getURLsFromHTML both relative and absolute', ()=>{
     expect(actualOutput).toEqual(expectedOutput)
 })
 
+// test suite: 8 
+// to track invalid links
 
+test(`getURLsFromHTML broken links`, ()=>{
+    const inputHTMLBody = `
+    <html>
+        <body>
+            <a href="invalid">
+                Practice
+            </a>
+            
+        </body>
+    </html>
+    `
+
+    const inputBaseURL = "https://blog.boot.dev"
+    const actualOutput = getURLsFromHtml(inputHTMLBody, inputBaseURL)
+    const expectedOutput = []
+    expect(actualOutput).toEqual(expectedOutput)
+
+
+})
 
 
