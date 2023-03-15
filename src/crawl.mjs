@@ -6,12 +6,32 @@ import {JSDOM}  from "jsdom"
     const crawlPage = async (currentURL)=>{
         console.log(`currently crawling: ${currentURL}`)
 
+        try{
         const res = await fetch(currentURL)
         console.log(await res.text())
+
+        if(res.status>399)
+        {
+            console.log(`error in fetch with status code: ${res.status} on page: ${currentURL} `)
+        }
+
+        const contentType = res.headers.get("content-type")
+        {
+            if(!contentType.includes("text/html"))
+            {
+                console.log(`non-html response, contentType: ${contentType}, on page: ${currentURL} `)
+                return 
+            }
+        }
+
+        }catch(e)
+        {
+            console.log(`error occured: ${e.message}, on page: ${currentURL}`)
+        }
     }
 
 
-// getting urls froma html function
+// getting urls from a html function
 // using jsdom package for getting the html tree structure, and gives us a way in node to access the DOM APIs
 
 const getURLsFromHtml=(htmlBody, baseURL)=>
