@@ -22,7 +22,7 @@ const main = () => {
 
     console.log(`let's start crawling: ${baseURL}`);
 
-    crawlPage(baseURL);
+    crawlPage(baseURL, baseURL, {});
   }
 };
 

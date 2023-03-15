@@ -3,8 +3,25 @@ import fetch from 'node-fetch';
 import {JSDOM}  from "jsdom"
 
 
-    const crawlPage = async (currentURL)=>{
+    const crawlPage = async (baseURL, currentURL, pages)=>{
         console.log(`currently crawling: ${currentURL}`)
+
+        const baseURLObj = new URL(baseURL) 
+        const currentURLObj = new URL(currentURL)
+
+        if(baseURLObj.hostname!==currentURLObj.hostname)
+        {
+            return pages;
+        }
+
+        // checking if the url is already visited or not
+        const normalizedCurrentURL = normalizeURL(currentURL)
+
+    if(pages[normalizedCurrentURL] > 0)
+    {
+        pages[normalizedCurrentURL]++
+        return pages
+    }
 
         try{
         const res = await fetch(currentURL)
@@ -23,6 +40,7 @@ import {JSDOM}  from "jsdom"
                 return 
             }
         }
+        
 
         }catch(e)
         {
