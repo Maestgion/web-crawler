@@ -4,48 +4,72 @@ import {JSDOM}  from "jsdom"
 
 
     const crawlPage = async (baseURL, currentURL, pages)=>{
-        console.log(`currently crawling: ${currentURL}`)
-
+        
         const baseURLObj = new URL(baseURL) 
         const currentURLObj = new URL(currentURL)
-
+        
         if(baseURLObj.hostname!==currentURLObj.hostname)
         {
             return pages;
         }
-
+        
         // checking if the url is already visited or not
         const normalizedCurrentURL = normalizeURL(currentURL)
-
-    if(pages[normalizedCurrentURL] > 0)
-    {
-        pages[normalizedCurrentURL]++
-        return pages
-    }
+        
+        if(pages[normalizedCurrentURL] > 0)
+        {
+            pages[normalizedCurrentURL]++
+            return pages
+        }
+        
+        pages[normalizedCurrentURL] = 1;
+        
+        console.log(`currently crawling: ${currentURL}`)
 
         try{
         const res = await fetch(currentURL)
-        console.log(await res.text())
+        // console.log(await res.text())
+
+      
+
+
 
         if(res.status>399)
         {
             console.log(`error in fetch with status code: ${res.status} on page: ${currentURL} `)
+            return 
         }
 
         const contentType = res.headers.get("content-type")
-        {
+        
             if(!contentType.includes("text/html"))
             {
                 console.log(`non-html response, contentType: ${contentType}, on page: ${currentURL} `)
                 return 
             }
-        }
         
+            const htmlBody = await res.text()
+
+            // console.log(htmlBody)
+
+            const nxtURLs = getURLsFromHtml(htmlBody, baseURL)
+
+            // console.log(nxtURLs)
+
+
+            // recursive crawling
+            for(const nxtURL of nxtURLs)
+            {
+                pages = await crawlPage(baseURL, nxtURL, pages)
+                // console.log(pages)
+            }
 
         }catch(e)
         {
             console.log(`error occured: ${e.message}, on page: ${currentURL}`)
         }
+
+        return pages
     }
 
 

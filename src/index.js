@@ -4,7 +4,7 @@ import { crawlPage } from "./crawl.mjs";
 
 process.argv;
 
-const main = () => {
+const main = async () => {
   if (process.argv.length < 3) {
     console.log("no website to serve");
     process.exit(1);
@@ -22,8 +22,32 @@ const main = () => {
 
     console.log(`let's start crawling: ${baseURL}`);
 
-    crawlPage(baseURL, baseURL, {});
+   const pages = await  crawlPage(baseURL, baseURL, {}) ;
+
+   for(const page of Object.entries(pages)){
+    if(page !== 'undefined' && page !== 'null')
+    {
+      console.log(page);
+    }
+    else{
+      console.log('⛔️ Object is falsy');
+    }
+   }
+
+  //  const entries = Object.getOwnPropertyNames(pages).map(key=>[key, pages[key]])
+
+  //  console.log(entries)
+
+  // const entries = Object.getOwnPropertyNames(pages)
+  // .filter(key => pages[key] !== (undefined || null)) // filter out properties with undefined value
+  // .map(key => [key, pages[key]]);
+
+
+
+
+  // console.log(entries)
   }
+
 };
 
 main();
