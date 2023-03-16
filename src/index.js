@@ -1,4 +1,5 @@
 import { crawlPage } from "./crawl.mjs";
+import { printSEOReport } from "./report.mjs";
 
 // global level object and argv as to grab the command line
 
@@ -22,32 +23,20 @@ const main = async () => {
 
     console.log(`let's start crawling: ${baseURL}`);
 
-   const pages = await  crawlPage(baseURL, baseURL, {}) ;
+    const pages = await crawlPage(baseURL, baseURL, {});
 
-   for(const page of Object.entries(pages)){
-    if(page !== 'undefined' && page !== 'null')
-    {
-      console.log("*****", page);
-    }
-    else{
-      console.log('⛔️ Object is falsy');
-    }
-   }
+    printSEOReport(pages);
 
-  //  const entries = Object.getOwnPropertyNames(pages).map(key=>[key, pages[key]])
-
-  //  console.log(entries)
-
-  // const entries = Object.getOwnPropertyNames(pages)
-  // .filter(key => pages[key] !== (undefined || null)) // filter out properties with undefined value
-  // .map(key => [key, pages[key]]);
-
-
-
-
-  // console.log(entries)
+    //  for(const page of Object.entries(pages)){
+    //   if(page !== 'undefined' && page !== 'null')
+    //   {
+    //     console.log("*****", page);
+    //   }
+    //   else{
+    //     console.log('⛔️ Object is falsy');
+    //   }
+    //  }
   }
-
 };
 
 main();
