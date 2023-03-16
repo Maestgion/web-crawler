@@ -24,7 +24,7 @@ import {JSDOM}  from "jsdom"
         
         pages[normalizedCurrentURL] = 1;
         
-        console.log(`currently crawling: ${currentURL}`)
+        console.log(`currently crawling this baby: ${currentURL}`)
 
         try{
         const res = await fetch(currentURL)
@@ -45,7 +45,7 @@ import {JSDOM}  from "jsdom"
             if(!contentType.includes("text/html"))
             {
                 console.log(`non-html response, contentType: ${contentType}, on page: ${currentURL} `)
-                return 
+                return pages
             }
         
             const htmlBody = await res.text()
@@ -59,14 +59,23 @@ import {JSDOM}  from "jsdom"
 
             // recursive crawling
             for(const nxtURL of nxtURLs)
-            {
-                pages = await crawlPage(baseURL, nxtURL, pages)
-                // console.log(pages)
+            {   
+                console.log("->", nxtURL)
+                if(nxtURL!==undefined ||
+                     nxtURL !== null)
+                {
+                    pages = await crawlPage(baseURL, nxtURL, pages)
+                console.log(pages)
+                }
+                else{
+                    console.log(nxtURL)
+                }
+                    
             }
 
         }catch(e)
         {
-            console.log(`error occured: ${e.message}, on page: ${currentURL}`)
+            console.log(`========>error occured: ${e.message}, on page: ${currentURL}`)
         }
 
         return pages

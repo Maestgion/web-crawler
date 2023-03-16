@@ -27,7 +27,7 @@ const main = async () => {
    for(const page of Object.entries(pages)){
     if(page !== 'undefined' && page !== 'null')
     {
-      console.log(page);
+      console.log("*****", page);
     }
     else{
       console.log('⛔️ Object is falsy');
